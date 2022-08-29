@@ -1,22 +1,19 @@
-#FROM python:latest
-FROM alpine:latest
-#FROM postgres:alpine
+FROM ubuntu:18.04
 
-#RUN apk update && apk add bash
-
-RUN apk add --update --no-cache python3 && ln -sf python3 /usr/bin/python
-RUN apk add --no-cache python3-dev postgresql-dev build-base
-RUN python3 -m ensurepip
-RUN pip3 install --no-cache --upgrade pip setuptools
+RUN apt-get update
+RUN apt-get install -y python3.6
+RUN apt-get install -y python3-pip
+RUN apt-get install -y libpq-dev
+RUN python3.6 -m pip install pip --upgrade
+RUN python3.6 -m pip install wheel
 
 WORKDIR /app
 
-#ADD app .
 COPY requirements.txt ./
 
-#RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
 #CMD ["python", "main.py"]
-CMD ["/bin/sh"]
+CMD ["/bin/bash"]

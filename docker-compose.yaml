@@ -3,7 +3,7 @@ version: '3.8'
 services:
   app:
     build: .
-    #command: sh -c "sleep 5 && alembic upgrade head"
+    command: bash -c "sleep 5 && alembic upgrade head && /bin/bash"
     depends_on:
       - db
 

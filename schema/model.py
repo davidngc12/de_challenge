@@ -5,6 +5,14 @@ from sqlalchemy.sql.sqltypes import Float, INTEGER, Numeric
 Base = declarative_base()
 
 
-class Test(Base):
-    __tablename__ = "test"
-    id_usuario = Column(Integer, primary_key=True, index=True)
+class Trips(Base):
+    __tablename__ = "trips"
+    id = Column(Integer, primary_key=True, index=True)
+    region = Column(String)
+    origin_coord = Column(String)
+    destination_coord = Column(String)
+    datetime = Column(String)
+    datasource = Column(String)
+    origin_address = Column(String)
+    destination_address = Column(String)
+    upload_datetime = Column(String)
