@@ -10,8 +10,8 @@ from datetime import datetime
 
 geopy.geocoders.options.default_user_agent = 'de_challenge'
 
-uploads_path = os.getcwd()+'/app/uploads/'
-processed_path = os.getcwd()+'/app/processed/'
+uploads_path = os.getcwd()+'/uploads/'
+processed_path = os.getcwd()+'/processed/'
 
 engine = create_engine('postgresql+psycopg2://postgres:postgres@db/de_challenge', echo=False)
 
