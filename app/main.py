@@ -8,6 +8,7 @@ import os
 import shutil
 from datetime import datetime
 
+#user agent definition for nominatim geocoding service
 geopy.geocoders.options.default_user_agent = 'de_challenge'
 
 uploads_path = os.getcwd()+'/uploads/'
@@ -15,6 +16,7 @@ processed_path = os.getcwd()+'/processed/'
 
 engine = create_engine('postgresql+psycopg2://postgres:postgres@db/de_challenge', echo=False)
 
+# function to obtain the address for the origin and destination coordinates
 def reverse_geocoding(df):
 
     origins = gpd.GeoSeries.from_wkt(df['origin_coord'])
@@ -24,15 +26,18 @@ def reverse_geocoding(df):
 
     return df
 
+# we process all the files in uploads path. if the file is upload succesfully it will be moved to the processed folder
+# otherwise if it fails the script will prompt a message with the error.
 for file in os.listdir(uploads_path):
 
     try:
         print(f'Uploading {file} to database')
-        #chunksize can be as big as the ram available allows. for this challenge set it to 40 so we can see a status update
+        # chunksize can be as big as the ram available allows. for this challenge set it to 40 so we can see a status update
         df = pd.read_csv(uploads_path+file, chunksize=40) 
         processed_dts = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         count = 0
 
+        # we transform and upload the dataset by chunks. only if all chunks are processed succesfully the script will move the file
         for df_chunk in df:
             # nominatim api sometime throws a Service not available error. in this case delete the records loaded from table and rerun the script
             df_chunk = reverse_geocoding(df_chunk)
